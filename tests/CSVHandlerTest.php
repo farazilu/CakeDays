@@ -1,14 +1,16 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * CSVHandler test case.
  */
-class CSVHandlerTest extends PHPUnit_Framework_TestCase
+class CSVHandlerTest extends TestCase
 {
 
     /**
      *
-     * @var CSVHandler
+     * @var CakeDay\CSVHandler
      */
     private $cSVHandler;
 
@@ -21,7 +23,7 @@ class CSVHandlerTest extends PHPUnit_Framework_TestCase
         
         // TODO Auto-generated CSVHandlerTest::setUp()
         
-        $this->cSVHandler = new CSVHandler(/* parameters */);
+        $this->cSVHandler = new CakeDay\CSVHandler("birthdays.csv");
     }
 
     /**
