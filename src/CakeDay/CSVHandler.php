@@ -6,7 +6,7 @@ namespace CakeDay;
  * @author faraz
  *        
  */
-class CSVHandler implements DataHandelerInterface
+class CSVHandler implements DataHandlerInterface
 {
 
     private $_file_read;
@@ -20,13 +20,13 @@ class CSVHandler implements DataHandelerInterface
     public function __construct($file_read, $file_write)
     {
         $this->_file_read = $file_read;
-        $this->_file_weite = $file_write;
+        $this->_file_write = $file_write;
     }
 
     /**
      * (non-PHPdoc)
      *
-     * @see \CakeDay\DataHandelerInterface::setData()
+     * @see \CakeDay\DataHandlerInterface::setData()
      *
      */
     public function setData(array $data)
@@ -37,37 +37,52 @@ class CSVHandler implements DataHandelerInterface
     /**
      * (non-PHPdoc)
      *
-     * @see \CakeDay\DataHandelerInterface::reader()
+     * @see \CakeDay\DataHandlerInterface::reader()
      *
      */
-    public function reader()
+    public function reader(): bool
     {
-        $file_info = new SplFileInfo($this->_file_read);
+        $file_info = new \SplFileInfo($this->_file_read);
         if ($file_info->isReadable()) {
-            $file = new SplFileObject($this->_file_read);
-            $file->setFlags(SplFileObject::READ_CSV);
+            $file = new \SplFileObject($this->_file_read);
+            $file->setFlags(\SplFileObject::READ_CSV);
             foreach ($file as $row) {
-                list ($animal, $class, $legs) = $row;
-                printf("A %s is a %s with %d legs\n", $animal, $class, $legs);
+                $this->_data[] = $row;
             }
+            $file = null;
+            $file_info = null;
+            return true;
         } else {
-            throw new Exception("Sorry input file is not readable, make sure file exist and has correct permissions");
+            throw new \Exception("Sorry input file is not readable, make sure file exist and has correct permissions");
         }
+        return false;
     }
 
     /**
      * (non-PHPdoc)
      *
-     * @see \CakeDay\DataHandelerInterface::writer()
+     * @see \CakeDay\DataHandlerInterface::writer()
      *
      */
-    public function writer()
-    {}
+    public function writer(): bool
+    {
+        try {
+            $file = new \SplFileObject($this->_file_write, "w");
+            foreach ($this->_data as $row) {
+                $file->fputcsv($row);
+            }
+            $file = null;
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception("Sorry output file is not writable, make sure file exist and has correct permissions: " . $e->getMessage());
+        }
+        return false;
+    }
 
     /**
      * (non-PHPdoc)
      *
-     * @see \CakeDay\DataHandelerInterface::getData()
+     * @see \CakeDay\DataHandlerInterface::getData()
      *
      */
     public function getData(): array

@@ -1,5 +1,4 @@
 <?php
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,9 +20,7 @@ class CSVHandlerTest extends TestCase
     {
         parent::setUp();
         
-        // TODO Auto-generated CSVHandlerTest::setUp()
-        
-        $this->cSVHandler = new CakeDay\CSVHandler("birthdays.csv");
+        $this->cSVHandler = new CakeDay\CSVHandler("data/test_file.csv", "data/test_file.csv");
     }
 
     /**
@@ -33,16 +30,10 @@ class CSVHandlerTest extends TestCase
     {
         // TODO Auto-generated CSVHandlerTest::tearDown()
         $this->cSVHandler = null;
+        if (is_file("data/test_file.csv"))
+            unlink("data/test_file.csv");
         
         parent::tearDown();
-    }
-
-    /**
-     * Constructs the test case.
-     */
-    public function __construct()
-    {
-        // TODO Auto-generated constructor
     }
 
     /**
@@ -50,21 +41,43 @@ class CSVHandlerTest extends TestCase
      */
     public function test__construct()
     {
-        // TODO Auto-generated CSVHandlerTest->test__construct()
-        $this->markTestIncomplete("__construct test not implemented");
-        
-        $this->cSVHandler->__construct(/* parameters */);
+        // don't need to test constructor as its alredy calledin setUP()
+        // $this->cSVHandler->__construct("data/test_input.csv", "data/test_output.csv");
+        $this->assertInstanceOf("\CakeDay\CSVHandler", $this->cSVHandler);
     }
 
     /**
      * Tests CSVHandler->setData()
+     * Tests CSVHandler->setData()
      */
-    public function testSetData()
+    public function testSetGetData()
     {
-        // TODO Auto-generated CSVHandlerTest->testSetData()
-        $this->markTestIncomplete("setData test not implemented");
+        $data = [
+            [
+                'test name',
+                'DOB'
+            ]
+        ];
+        $this->cSVHandler->setData($data);
+        $data_return = $this->cSVHandler->getData();
+        $this->assertEquals($data, $data_return);
+    }
+
+    /**
+     * Tests CSVHandler->writer()
+     */
+    public function testWriterReader()
+    {
+        $data = [
+            [
+                'test name',
+                'DOB'
+            ]
+        ];
+        $this->cSVHandler->setData($data);
         
-        $this->cSVHandler->setData(/* parameters */);
+        $is_success = $this->cSVHandler->writer();
+        $this->assertTrue($is_success);
     }
 
     /**
@@ -72,32 +85,17 @@ class CSVHandlerTest extends TestCase
      */
     public function testReader()
     {
-        // TODO Auto-generated CSVHandlerTest->testReader()
-        $this->markTestIncomplete("reader test not implemented");
+        $data = [
+            [
+                'test name',
+                'DOB'
+            ]
+        ];
+        $this->cSVHandler->setData($data);
         
-        $this->cSVHandler->reader(/* parameters */);
-    }
-
-    /**
-     * Tests CSVHandler->writer()
-     */
-    public function testWriter()
-    {
-        // TODO Auto-generated CSVHandlerTest->testWriter()
-        $this->markTestIncomplete("writer test not implemented");
-        
-        $this->cSVHandler->writer(/* parameters */);
-    }
-
-    /**
-     * Tests CSVHandler->getData()
-     */
-    public function testGetData()
-    {
-        // TODO Auto-generated CSVHandlerTest->testGetData()
-        $this->markTestIncomplete("getData test not implemented");
-        
-        $this->cSVHandler->getData(/* parameters */);
+        $this->cSVHandler->writer();
+        $is_success = $this->cSVHandler->reader();
+        $this->assertTrue($is_success);
     }
 }
 
