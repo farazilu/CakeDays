@@ -19,6 +19,8 @@ class Birthday
 
     private $_birthday_label;
 
+    public static $testYear;
+
     /**
      */
     public function __construct($name, $birthday, DateHandlerInterface $datehandler)
@@ -38,8 +40,14 @@ class Birthday
             $this->_birthday_label = "{$day}, {$month}";
             $next_birthday = \DateTime::createFromFormat('m-d', "{$month}-{$day}");
             
+            // make class test able so we can give fix year for test data e.g. 2018
+            if (! empty(self::$testYear)) {
+                $today = \DateTime::createFromFormat('Y', self::$testYear);
+            } else {
+                $today = new \DateTime();
+            }
             // check if this year birthday has passed
-            $diff = (new \DateTime())->diff($next_birthday);
+            $diff = $today->diff($next_birthday);
             if ($diff->invert && $diff->days > 0) {
                 // this year birthday has passed so calculate next year
                 $next_birthday = $next_birthday->add(new \DateInterval('P1Y'));

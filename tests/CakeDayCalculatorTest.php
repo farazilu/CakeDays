@@ -22,6 +22,7 @@ class CakeDayCalculatorTest extends TestCase
         
         $csvHandler = new CakeDay\CSVHandler("data/input.csv", "data/output.csv");
         $dateHandler = new CakeDay\UKDateHandeler();
+        CakeDay\Birthday::$testYear = 2018;
         
         $this->cakeDayCalculator = new CakeDay\CakeDayCalculator($dateHandler, $csvHandler);
     }
@@ -53,14 +54,21 @@ class CakeDayCalculatorTest extends TestCase
     public function test_Import_data()
     {
         $count = $this->cakeDayCalculator->import_data();
-        $this->assertEquals(7, $count);
+        $this->assertEquals(12, $count);
     }
 
     public function test_getAllCakeDays()
     {
         $this->cakeDayCalculator->import_data();
         $count = $this->cakeDayCalculator->getAllCakeDays();
-        $this->assertEquals(6, $count);
+        $this->assertEquals(10, $count);
+    }
+
+    public function test_groupCakeDays()
+    {
+        $this->cakeDayCalculator->import_data();
+        $this->cakeDayCalculator->getAllCakeDays();
+        $this->cakeDayCalculator->groupCakeDays();
     }
 }
 
