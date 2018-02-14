@@ -9,12 +9,6 @@ namespace CakeDay;
 class UKDateHandeler implements DateHandlerInterface
 {
 
-    private $_today;
-
-    private $_today_in_year;
-
-    private $_year;
-
     private $_weekends = [
         'Sun',
         'Sat'
@@ -32,19 +26,10 @@ class UKDateHandeler implements DateHandlerInterface
      */
     public function __construct()
     {
-        // check what day of year we are.
-        $this->_today = new \DateTime();
-        $this->_today_in_year = $this->_today->format('z');
-        $this->_year = $this->_today->format('Y');
         foreach ($this->_holidays_String as $day) {
             $date = \DateTime::createFromFormat("d M", $day);
             $this->_holidays[] = $date;
         }
-    }
-
-    public function get_hoiday_list()
-    {
-        return $this->_holidays;
     }
 
     /**
