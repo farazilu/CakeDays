@@ -1,13 +1,19 @@
 <?php
 // this file will act as mail conroller for this project..
 // check if user has created vendor folder and installed app using composer
-if (! file_exists("./vendor")) {
-    die("Please install app using composer and put packages in ./vendor folder");
+// don't need composer unittest and autoloader psr-4 autoloader workign fine.
+// if (! file_exists("./vendor")) {
+// die("Please install app using composer and put packages in ./vendor folder");
+// }
+// if (! file_exists("./vendor/autoload.php")) {
+// die("App not installed using composer, ./vendor/autoload.php missing. please try 'php composer.phar install'");
+// }
+// require_once './vendor/autoload.php';
+if (! file_exists("./bootstrap.php")) {
+    die("./bootstrap.php missing make sure its in root folder of APP");
 }
-if (! file_exists("./vendor/autoload.php")) {
-    die("App not installed using composer, ./vendor/autoload.php missing. please try 'php composer.phar install'");
-}
-require_once './vendor/autoload.php';
+
+require_once './bootstrap.php';
 
 if (! file_exists("data/user_input.csv")) {
     die("Input file missing, pleae put your file in './data/user_input.csv ");
