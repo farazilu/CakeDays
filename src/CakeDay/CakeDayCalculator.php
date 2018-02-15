@@ -52,9 +52,11 @@ class CakeDayCalculator
     public function export_data(): array
     {
         $data = [];
+        //print_r($this->_cakeDays);
         foreach ($this->_cakeDays as $day => $cake_data) {
             $small_cake = 'No small cake';
             $large_cake = 'No large cake';
+            $names= '';
             if (count($cake_data['names']) == 1) {
                 $small_cake = '1 small cake';
             } else {
@@ -94,7 +96,7 @@ class CakeDayCalculator
                 $this->_cakeDays[$newDate]['names'] = array_merge($this->_cakeDays[$newDate]['names'], $this->_cakeDays[$oldDate]['names']);
             } else {
                 // else create a new cake day..
-                $this->_cakeDays[$newDate]['names'] = $this->_cakeDays[$oldDate];
+                $this->_cakeDays[$newDate]['names'] = $this->_cakeDays[$oldDate]['names'];
             }
             $this->_cakeDays[$newDate]['moved'] = TRUE;
             // remove the old cake day..
