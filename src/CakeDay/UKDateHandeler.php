@@ -41,6 +41,7 @@ class UKDateHandeler implements DateHandlerInterface
     public function getNextWrokingDay($date): string
     {
         $dateObj = \DateTime::createFromFormat('Y-m-d', $date);
+        $dateObj = $dateObj->add(new \DateInterval('P1D'));
         $dateObj = $this->getNextWrokingDayItrator($dateObj);
         return $dateObj->format('Y-m-d');
     }

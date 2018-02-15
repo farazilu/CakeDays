@@ -74,7 +74,7 @@ class UKDateHandelerTest extends TestCase
     public function test_GetNextWrokingDay()
     {
         $next_working_day = $this->uKDateHandeler->getNextWrokingDay("2017-01-02");
-        $this->assertEquals('2017-01-02', $next_working_day);
+        $this->assertEquals('2017-01-03', $next_working_day);
         
         $next_working_day = $this->uKDateHandeler->getNextWrokingDay("2018-02-18");
         $this->assertEquals('2018-02-19', $next_working_day);

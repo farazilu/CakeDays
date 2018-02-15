@@ -55,15 +55,11 @@ class Birthday
             
             // check if birthday on day off
             $birthday_on_day_off = $this->_dateHandler->checkDayOff($next_birthday);
-            
-            $next_working_day = $next_birthday->add(new \DateInterval('P1D'));
             $this->_next_working_day = $this->_dateHandler->getNextWrokingDay($next_birthday->format('Y-m-d'));
             
             // if birthday was on day off make next working day as day off
             if ($birthday_on_day_off) {
-                $next_working_day = \DateTime::createFromFormat('Y-m-d', $this->_next_working_day);
-                $next_working_day = $next_working_day->add(new \DateInterval('P1D'));
-                $this->_next_working_day = $this->_dateHandler->getNextWrokingDay($next_working_day->format('Y-m-d'));
+                $this->_next_working_day = $this->_dateHandler->getNextWrokingDay($this->_next_working_day);
             }
             return TRUE;
         } else {
