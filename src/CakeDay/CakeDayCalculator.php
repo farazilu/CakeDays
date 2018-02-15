@@ -25,6 +25,14 @@ class CakeDayCalculator
         $this->_dateHandler = $dateHandler;
     }
 
+    public function exec()
+    {
+        $this->import_data();
+        $this->getAllCakeDays();
+        $this->groupCakeDays();
+        $this->export_data();
+    }
+
     public function import_data(): int
     {
         if ($this->_dataHandler->reader()) {
