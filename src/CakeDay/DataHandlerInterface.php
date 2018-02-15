@@ -1,17 +1,17 @@
 <?php
-namespace classes;
+namespace CakeDay;
 
 /**
  *
  * @author faraz
  *        
  */
-interface DataHandelerInterface
+interface DataHandlerInterface
 {
 
-    public function reader();
+    public function reader(): bool;
 
-    public function writer();
+    public function writer(): bool;
 
     public function getData(): array;
 

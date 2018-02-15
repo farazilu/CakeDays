@@ -1,5 +1,5 @@
 <?php
-namespace classes;
+namespace CakeDay;
 
 /**
  *
@@ -10,5 +10,7 @@ interface DateHandlerInterface
 {
 
     public function getNextWrokingDay($date): string;
+
+    public function checkDayOff(\DateTime $dateObj): bool;
 }
 
