@@ -19,10 +19,18 @@ if (! file_exists("data/user_input.csv")) {
     die("Input file missing, pleae put your file in './data/user_input.csv ");
 }
 
+if (empty($argv[1])) {
+    die("provide a year to calculate cake day schedule e.g. php index.php 2017");
+}
+
+if (strlen($argv[1]) != 4 || ! is_numeric($argv[1])) {
+    die("Please enter date in 4 digit format e.g. 2017");
+}
+
+CakeDay\Birthday::$testYear = (int) $argv[1];
+
 $csvHandler = new CakeDay\CSVHandler("data/user_input.csv", "data/user_output.csv");
 $dateHandler = new CakeDay\UKDateHandeler();
-
-// CakeDay\Birthday::$testYear = 2018;
 
 $cakeDayCalculator = new CakeDay\CakeDayCalculator($dateHandler, $csvHandler);
 $cakeDayCalculator->exec();

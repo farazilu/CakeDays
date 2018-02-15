@@ -38,12 +38,14 @@ class Birthday
             $day = $birthdayObj->format('d');
             $month = $birthdayObj->format('m');
             $this->_birthday_label = "{$day}, {$month}";
-            $next_birthday = \DateTime::createFromFormat('m-d', "{$month}-{$day}");
             
             // make class test able so we can give fix year for test data e.g. 2018
             if (! empty(self::$testYear)) {
+                $year = self::$testYear;
+                $next_birthday = \DateTime::createFromFormat('Y-m-d', "{$year}-{$month}-{$day}");
                 $today = \DateTime::createFromFormat('Y', self::$testYear);
             } else {
+                $next_birthday = \DateTime::createFromFormat('m-d', "{$month}-{$day}");
                 $today = new \DateTime();
             }
             // check if this year birthday has passed
