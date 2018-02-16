@@ -73,5 +73,10 @@ class UKDateHandeler implements DateHandlerInterface
         }
         return $dateObj;
     }
+
+    public function dateValidator($date): bool
+    {
+        return (bool) \DateTime::createFromFormat('Y-m-d', $date);
+    }
 }
 

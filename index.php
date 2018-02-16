@@ -30,10 +30,16 @@ if (strlen($argv[1]) != 10 || count($date) != 3 || strlen($date[0]) != 4 || strl
     die($date_error_message);
 }
 
+$dateHandler = new CakeDay\UKDateHandeler();
+
+// check if date is valid for PHP DateTime
+if (! $dateHandler->dateValidator($argv[1])) {
+    die($date_error_message);
+}
+
 CakeDay\Birthday::$testYear = $argv[1];
 
 $csvHandler = new CakeDay\CSVHandler("data/user_input.csv", "data/user_output.csv");
-$dateHandler = new CakeDay\UKDateHandeler();
 
 $cakeDayCalculator = new CakeDay\CakeDayCalculator($dateHandler, $csvHandler);
 $cakeDayCalculator->exec();

@@ -57,7 +57,9 @@ class CakeDayCalculator
         foreach ($birthdays as $birthday) {
             // ignore invalid rows
             if (count($birthday) == 2) {
-                $this->_birthdays[] = new Birthday($birthday[0], $birthday[1], $this->_dateHandler);
+                if ($this->_dateHandler->dateValidator($birthday[1])) {
+                    $this->_birthdays[] = new Birthday($birthday[0], $birthday[1], $this->_dateHandler);
+                }
             }
         }
     }
