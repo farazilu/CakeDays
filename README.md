@@ -24,11 +24,22 @@ The utility should output a CSV detailing the dates we have cake, in the followi
    cakes due on a cake-free day are postponed to the next working day.
  - There is never more than one cake a day.
 
- ## Run instructions
+
+## Run instructions
  
  **PHPUnit** 
  
  *phpunit --bootstrap bootstrap.php tests/*
+ 
+ **Composer**
+ 
+Install: 
+
+1. Download composer https://getcomposer.org/download/ 
+
+2. *php composer.phar install*
+
+Run: *php ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php tests/*
  
  **PHP CLI** 
  
