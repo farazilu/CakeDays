@@ -20,6 +20,10 @@ class CakeDayCalculator
     private $_cakeDaysFinished = [];
 
     /**
+     * create a object of cake day calculator
+     *
+     * @param DateHandlerInterface $dateHandler
+     * @param DataHandlerInterface $dataHandler
      */
     public function __construct(DateHandlerInterface $dateHandler, DataHandlerInterface $dataHandler)
     {
@@ -27,6 +31,9 @@ class CakeDayCalculator
         $this->_dateHandler = $dateHandler;
     }
 
+    /**
+     * calculate cakedays for birthdays single controller
+     */
     public function exec()
     {
         $this->setBirthdays([]);
@@ -34,6 +41,11 @@ class CakeDayCalculator
         $this->export_data();
     }
 
+    /**
+     * import data using DataHandler attached using dependency injecton
+     *
+     * @return array
+     */
     private function import_data(): array
     {
         if ($this->_dataHandler->reader()) {
@@ -42,12 +54,21 @@ class CakeDayCalculator
         return [];
     }
 
+    /**
+     * write data using Datahandler attached using dependency injection
+     */
     public function export_data(): void
     {
         $this->_dataHandler->setData($this->_cakeDaysFinished);
         $this->_dataHandler->writer();
     }
 
+    /**
+     * set data to process Or empty to use Data Handler import
+     * [ [Dan, 1990-02-11], [Dan, 1990-02-11] ]
+     *
+     * @param array $birthdays
+     */
     public function setBirthdays(array $birthdays)
     {
         if (count($birthdays) == 0) {
@@ -64,6 +85,13 @@ class CakeDayCalculator
         }
     }
 
+    /**
+     * get calculated cake days
+     *
+     * [ [2017-01-01, 'small cakes', 'Large cakes', 'Names'] ]
+     *
+     * @return array
+     */
     public function getCakeDays(): array
     {
         if (count($this->_cakeDaysFinished) == 0) {
@@ -74,6 +102,9 @@ class CakeDayCalculator
         return $this->_cakeDaysFinished;
     }
 
+    /**
+     * convert birthday data into cake days for curren year
+     */
     private function convertBirthdaysToCakeDays(): void
     {
         foreach ($this->_birthdays as $birthday) {
@@ -85,28 +116,8 @@ class CakeDayCalculator
         ksort($this->_cakeDaysData);
     }
 
-    private function moveDays($oldDate, $newDate)
-    {
-        if (isset($this->_cakeDaysData[$oldDate])) {
-            // make sure we have a cake day set on old date..
-            if (isset($this->_cakeDaysData[$newDate])) {
-                // check if we already have a cake day on new date if we ahve merge them.
-                $this->_cakeDaysData[$newDate]['names'] = array_merge($this->_cakeDaysData[$newDate]['names'], $this->_cakeDaysData[$oldDate]['names']);
-            } else {
-                // else create a new cake day..
-                $this->_cakeDaysData[$newDate]['names'] = $this->_cakeDaysData[$oldDate]['names'];
-            }
-            $this->_cakeDaysData[$newDate]['moved'] = TRUE;
-            // remove the old cake day..
-            unset($this->_cakeDaysData[$oldDate]);
-            ksort($this->_cakeDaysData);
-            // echo PHP_EOL . " {$oldDate} -> {$newDate}";
-            // print_r($this->_cakeDaysData);
-            // die();
-        }
-    }
-
     /**
+     * move and group cake days according to rules
      * If there is to be cake two days in a row, we instead provide one large cake on the second
      * day.
      * For health reasons, the day after each cake must be cake-free. Any cakes due on a cake-
@@ -164,6 +175,36 @@ class CakeDayCalculator
         }
     }
 
+    /**
+     * move cake days from old date to new date and set moved flag
+     *
+     * @param string $oldDate
+     * @param string $newDate
+     */
+    private function moveDays($oldDate, $newDate)
+    {
+        if (isset($this->_cakeDaysData[$oldDate])) {
+            // make sure we have a cake day set on old date..
+            if (isset($this->_cakeDaysData[$newDate])) {
+                // check if we already have a cake day on new date if we ahve merge them.
+                $this->_cakeDaysData[$newDate]['names'] = array_merge($this->_cakeDaysData[$newDate]['names'], $this->_cakeDaysData[$oldDate]['names']);
+            } else {
+                // else create a new cake day..
+                $this->_cakeDaysData[$newDate]['names'] = $this->_cakeDaysData[$oldDate]['names'];
+            }
+            $this->_cakeDaysData[$newDate]['moved'] = TRUE;
+            // remove the old cake day..
+            unset($this->_cakeDaysData[$oldDate]);
+            ksort($this->_cakeDaysData);
+            // echo PHP_EOL . " {$oldDate} -> {$newDate}";
+            // print_r($this->_cakeDaysData);
+            // die();
+        }
+    }
+
+    /**
+     * convert cake day data to exportable format
+     */
     private function sanitiseCakeDays()
     {
         $this->_cakeDaysFinished = [];

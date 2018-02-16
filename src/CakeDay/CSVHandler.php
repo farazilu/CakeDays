@@ -2,6 +2,7 @@
 namespace CakeDay;
 
 /**
+ * Implementation of Data handler to read and write a CSV file
  *
  * @author faraz
  *        
@@ -16,6 +17,11 @@ class CSVHandler implements DataHandlerInterface
     private $_data;
 
     /**
+     * Construct a object of class
+     * relative path of source and destination file
+     *
+     * @param string $file_read
+     * @param string $file_write
      */
     public function __construct($file_read, $file_write)
     {
