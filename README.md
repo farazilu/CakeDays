@@ -27,6 +27,8 @@ The utility should output a CSV detailing the dates we have cake, in the followi
 
 ## Run instructions
  
+ Requies PHP 7.1 and PHPUnit 7.0 
+ 
  **PHPUnit** 
  
  *phpunit --bootstrap bootstrap.php tests/*

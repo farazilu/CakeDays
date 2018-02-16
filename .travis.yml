@@ -6,7 +6,7 @@ php:
   # aliased to a recent 5.6.x version
   # - 5.6   PHPUnit 6.0 is supported on PHP 7.0 and PHP 7.1.
   # aliased to a recent 7.0 version
-  - 7.0
+  # - 7.0 return type does not work with 7.0
   # aliased to a recent 7.1 version
   - 7.1
   # aliased to a recent 7.2 version
