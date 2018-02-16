@@ -91,5 +91,18 @@ class UKDateHandelerTest extends TestCase
         $next_working_day = $this->uKDateHandeler->getNextWrokingDay("2019-01-01");
         $this->assertEquals('2019-01-02', $next_working_day);
     }
+
+    public function test_dateValidator()
+    {
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-01-01'));
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-02-28'));
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-02-29')); // 2017 is not leep year but datetime will convert it to 1st march.. breat for day off calculation
+        
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-2-28'));
+        
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-2-35')); // will be converted to 7th March
+        
+        $this->assertTrue($this->uKDateHandeler->dateValidator('2017-15-28')); // will be converted to 2018-03-28
+    }
 }
 

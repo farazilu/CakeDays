@@ -23,3 +23,28 @@ The utility should output a CSV detailing the dates we have cake, in the followi
  - For health reasons, the day after each cake must be cake-free. Any
    cakes due on a cake-free day are postponed to the next working day.
  - There is never more than one cake a day.
+
+
+## Run instructions
+ 
+ Requies PHP 7.1 and PHPUnit 7.0 
+ 
+ **PHPUnit** 
+ 
+ *phpunit --bootstrap bootstrap.php tests/*
+ 
+ **Composer**
+ 
+Install: 
+
+1. Download composer https://getcomposer.org/download/ 
+
+2. *php composer.phar install*
+
+Run: *php ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php tests/*
+ 
+ **PHP CLI** 
+ 
+ *php index.php date* 
+ 
+ --date in formate Y-m-d '2017-01-02' year=2017 month=01 day=02 . 

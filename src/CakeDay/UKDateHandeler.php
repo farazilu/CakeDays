@@ -2,6 +2,7 @@
 namespace CakeDay;
 
 /**
+ * Implementation of Date handler to work with UK weekend Sun, Sat and holiday list
  *
  * @author faraz
  *        
@@ -23,6 +24,7 @@ class UKDateHandeler implements DateHandlerInterface
     private $_holidays = [];
 
     /**
+     * construct a object and convert holidays to workable days
      */
     public function __construct()
     {
@@ -72,6 +74,16 @@ class UKDateHandeler implements DateHandlerInterface
             $dateObj = $this->getNextWrokingDayItrator($dateObj);
         }
         return $dateObj;
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see \CakeDay\DateHandlerInterface::dateValidator()
+     */
+    public function dateValidator($date): bool
+    {
+        return (bool) \DateTime::createFromFormat('Y-m-d', $date);
     }
 }
 

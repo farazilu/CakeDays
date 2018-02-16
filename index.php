@@ -10,27 +10,37 @@
 // }
 // require_once './vendor/autoload.php';
 if (! file_exists("./bootstrap.php")) {
-    die("./bootstrap.php missing make sure its in root folder of APP");
+    die("./bootstrap.php missing make sure its in root folder of APP\n");
 }
 
 require_once './bootstrap.php';
 
 if (! file_exists("data/user_input.csv")) {
-    die("Input file missing, pleae put your file in './data/user_input.csv ");
+    die("Input file missing, pleae put your file in './data/user_input.csv \n");
 }
+$date_error_message = "Please enter date in formate Y-m-d '2017-01-02' year=2017 month=01 day=02\n";
 
 if (empty($argv[1])) {
-    die("provide a year to calculate cake day schedule e.g. php index.php 2017");
+    die("date missing! 'php index.php date' " . $date_error_message);
 }
 
-if (strlen($argv[1]) != 4 || ! is_numeric($argv[1])) {
-    die("Please enter date in 4 digit format e.g. 2017");
+// validate date
+$date = explode('-', $argv[1]);
+
+if (strlen($argv[1]) != 10 || count($date) != 3 || strlen($date[0]) != 4 || strlen($date[1]) != 2 || strlen($date[2]) != 2) {
+    die($date_error_message);
 }
 
-CakeDay\Birthday::$testYear = (int) $argv[1];
+$dateHandler = new CakeDay\UKDateHandeler();
+
+// check if date is valid for PHP DateTime
+if (! $dateHandler->dateValidator($argv[1])) {
+    die($date_error_message);
+}
+
+CakeDay\Birthday::$testYear = $argv[1];
 
 $csvHandler = new CakeDay\CSVHandler("data/user_input.csv", "data/user_output.csv");
-$dateHandler = new CakeDay\UKDateHandeler();
 
 $cakeDayCalculator = new CakeDay\CakeDayCalculator($dateHandler, $csvHandler);
 $cakeDayCalculator->exec();

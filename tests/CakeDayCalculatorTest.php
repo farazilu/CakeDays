@@ -22,7 +22,7 @@ class CakeDayCalculatorTest extends TestCase
         
         $csvHandler = new CakeDay\CSVHandler("data/input.csv", "data/output.csv");
         $dateHandler = new CakeDay\UKDateHandeler();
-        CakeDay\Birthday::$testYear = 2018;
+        CakeDay\Birthday::$testYear = '2018-02-15';
         
         $this->cakeDayCalculator = new CakeDay\CakeDayCalculator($dateHandler, $csvHandler);
     }
@@ -49,64 +49,179 @@ class CakeDayCalculatorTest extends TestCase
     }
 
     /**
-     * Tests CakeDayCalculator->import_data()
+     * @dataProvider birthdayDataProvider
      */
-    public function test_Import_data()
+    public function test_cakeDayCalculator($testyear, $birthdays, $cakedays)
     {
-        $count = $this->cakeDayCalculator->import_data();
-        $this->assertEquals(12, $count);
+        CakeDay\Birthday::$testYear = $testyear;
+        $this->cakeDayCalculator->setBirthdays($birthdays);
+        $returnCakedays = $this->cakeDayCalculator->getCakeDays();
+        
+        $this->assertEquals(count($cakedays), count($returnCakedays));
+        if (count($cakedays) == count($returnCakedays)) {
+            for ($i = 0; $i < count($cakedays); $i ++) {
+                $this->assertEquals($cakedays[$i], $returnCakedays[$i]);
+            }
+        }
     }
 
-    public function test_getAllCakeDays()
+    public function birthdayDataProvider()
     {
-        $this->cakeDayCalculator->import_data();
-        $count = $this->cakeDayCalculator->getAllCakeDays();
-        $this->assertEquals(10, $count);
-    }
-
-    public function test_groupCakeDays()
-    {
-        $this->cakeDayCalculator->import_data();
-        $this->cakeDayCalculator->getAllCakeDays();
-        $this->cakeDayCalculator->groupCakeDays();
-        $days = $this->cakeDayCalculator->export_data();
-        $this->assertEquals(6, count($days));
-        $this->assertEquals([
-            '2018-12-28',
-            'No small cake',
-            '1 large cake',
-            'L, M'
-        ], $days[0]);
-        $this->assertEquals([
-            '2019-01-02',
-            '1 small cake',
-            'No large cake',
-            'N'
-        ], $days[1]);
-        $this->assertEquals([
-            '2019-01-16',
-            'No small cake',
-            '1 large cake',
-            'Tue, Faraz, O, Mon'
-        ], $days[2]);
-        $this->assertEquals([
-            '2019-01-18',
-            'No small cake',
-            '1 large cake',
-            'Thu, Wed'
-        ], $days[3]);
-        $this->assertEquals([
-            '2019-01-21',
-            '1 small cake',
-            'No large cake',
-            'Fri'
-        ], $days[4]);
-        $this->assertEquals([
-            '2019-02-13',
-            'No small cake',
-            '1 large cake',
-            'K, J'
-        ], $days[5]);
+        return [
+            [
+                '2018-02-15',
+                [
+                    [
+                        'Faraz',
+                        '1980-01-12'
+                    ],
+                    [
+                        'J',
+                        '1981-02-11'
+                    ],
+                    [
+                        'K',
+                        '1970-02-12'
+                    ],
+                    [
+                        'L',
+                        '1988-12-25'
+                    ],
+                    [
+                        'M',
+                        '1966-12-24'
+                    ],
+                    [
+                        'N',
+                        '1999-12-31'
+                    ],
+                    [
+                        'O',
+                        '1971-01-12'
+                    ],
+                    [
+                        'Mon',
+                        '1971-01-14'
+                    ],
+                    [
+                        'Tue',
+                        '1971-01-15'
+                    ],
+                    [
+                        'Wed',
+                        '1971-01-16'
+                    ],
+                    [
+                        'Thu',
+                        '1971-01-17'
+                    ],
+                    [
+                        'Fri',
+                        '1971-01-18'
+                    ]
+                
+                ],
+                [
+                    [
+                        '2018-12-28',
+                        'No small cake',
+                        '1 large cake',
+                        'L, M'
+                    ],
+                    [
+                        '2019-01-02',
+                        '1 small cake',
+                        'No large cake',
+                        'N'
+                    ],
+                    [
+                        '2019-01-16',
+                        'No small cake',
+                        '1 large cake',
+                        'Tue, Faraz, O, Mon'
+                    ],
+                    [
+                        '2019-01-18',
+                        'No small cake',
+                        '1 large cake',
+                        'Thu, Wed'
+                    ],
+                    [
+                        '2019-01-21',
+                        '1 small cake',
+                        'No large cake',
+                        'Fri'
+                    ],
+                    [
+                        '2019-02-13',
+                        'No small cake',
+                        '1 large cake',
+                        'K, J'
+                    ]
+                ]
+            ],
+            [
+                '2017-01-01',
+                [
+                    [
+                        'Dave',
+                        '1990-06-28'
+                    ],
+                    [
+                        'Rob',
+                        '1990-07-02'
+                    ],
+                    [
+                        'Sam',
+                        '1990-07-03'
+                    ],
+                    [
+                        'Kate',
+                        '1990-07-04'
+                    ],
+                    [
+                        'Alex',
+                        '1990-07-10'
+                    ],
+                    [
+                        'Jen',
+                        '1990-07-11'
+                    ],
+                    [
+                        'Pete',
+                        '1990-07-12'
+                    ]
+                
+                ],
+                [
+                    [
+                        '2017-06-29',
+                        '1 small cake',
+                        'No large cake',
+                        'Dave'
+                    ],
+                    [
+                        '2017-07-05',
+                        'No small cake',
+                        '1 large cake',
+                        'Kate, Rob, Sam'
+                    ],
+                    [
+                        '2017-07-12',
+                        'No small cake',
+                        '1 large cake',
+                        'Jen, Alex'
+                    ],
+                    [
+                        '2017-07-14',
+                        '1 small cake',
+                        'No large cake',
+                        'Pete'
+                    ]
+                ]
+            ]
+        
+        ];
     }
 }
 
