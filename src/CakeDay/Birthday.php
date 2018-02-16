@@ -41,9 +41,10 @@ class Birthday
             
             // make class test able so we can give fix year for test data e.g. 2018
             if (! empty(self::$testYear)) {
-                $year = self::$testYear;
+                
+                $today = \DateTime::createFromFormat('Y-m-d', self::$testYear);
+                $year = $today->format('Y');
                 $next_birthday = \DateTime::createFromFormat('Y-m-d', "{$year}-{$month}-{$day}");
-                $today = \DateTime::createFromFormat('Y', self::$testYear);
             } else {
                 $next_birthday = \DateTime::createFromFormat('m-d', "{$month}-{$day}");
                 $today = new \DateTime();

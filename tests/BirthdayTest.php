@@ -21,7 +21,7 @@ class BirthdayTest extends TestCase
         parent::setUp();
         
         $dateHandler = new CakeDay\UKDateHandeler();
-        CakeDay\Birthday::$testYear = 2018;
+        CakeDay\Birthday::$testYear = '2018-02-15';
         $this->birthday = new CakeDay\Birthday('test name', '1990-01-01', $dateHandler);
     }
 
